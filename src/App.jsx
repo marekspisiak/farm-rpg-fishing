@@ -22,9 +22,7 @@ function App() {
   const [inputText, setInputText] = useState("");
   const [inputData, setInputData] = useState([]);
 
-  console.log(inputData);
-
-  console.log();
+  const [netAmount, setNetAmount] = useState(null);
 
   const handleCopy = async () => {
     try {
@@ -122,6 +120,8 @@ function App() {
     setInputData(items);
   };
 
+  console.log(netAmount);
+
   return (
     <div className="px-3 gap-2 flex flex-col items-start bg-slate-100 relative h-screen">
       <h1 className="self-center text-3xl py-4 -mb-2 w-full text-center bg-slate-200 sticky top-0 z-50 backdrop-blur-sm">
@@ -134,6 +134,15 @@ function App() {
         handleSelectionChange={handleSelectionChange}
         handleCategoryChangeParent={handleCategoryChange}
       />
+      <label>
+        Use nets:{" "}
+        <input
+          type="number"
+          onChange={(e) => {
+            setNetAmount(e.target.value);
+          }}
+        ></input>
+      </label>
       <label>
         Desired amount:{" "}
         <input
@@ -173,6 +182,7 @@ function App() {
         desiredAmount={desiredAmount}
         maxInv={maxInv ?? inputData[0]?.max}
         inputData={inputData}
+        useNets={netAmount}
       />
     </div>
   );

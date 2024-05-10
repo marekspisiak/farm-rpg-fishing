@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
-function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
+function Strategy({
+  allFish,
+  desiredFish,
+  desiredAmount,
+  maxInv,
+  inputData,
+  useNets,
+}) {
   // const [sellCyclus, setSellCyclus] = useState();
   // const [whatToLock, setWhatToLock] = useState();
   // const [locking, setLocking] = useState();
@@ -12,7 +19,14 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
     setCounter(0);
   }, [allFish, desiredFish, desiredAmount, maxInv, inputData]);
 
-  if (!(allFish && desiredFish && desiredAmount && maxInv && inputData))
+  if (
+    !(
+      allFish &&
+      ((desiredAmount && desiredFish) || useNets) &&
+      maxInv &&
+      inputData
+    )
+  )
     return null;
 
   console.log(allFish);
@@ -45,14 +59,12 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
     const newArray2 = inputData.reduce((prev, cur) => {
       const newPrev = prev;
       const foundData = newArray.find((val) => val.name == cur.name);
-      console.log(foundData);
       if (foundData != undefined) {
         newPrev.push(foundData);
       }
       return newPrev;
     }, []);
 
-    console.log(newArray2);
     return newArray2;
   }
 
@@ -80,13 +92,16 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
   };
 
   const calculateCatchesNeeded = () => {
+    if (useNets) return useNets;
     const foundData = data.find((value) => desiredFish.value == value.name);
 
     return (desiredAmount - foundData.quantity) / foundData.rate;
   };
 
+  let neededCatchAmount = null;
+
   const calculateNextStep = () => {
-    const neededCatchAmount = calculateCatchesNeeded();
+    neededCatchAmount = calculateCatchesNeeded();
     whatToLock = calculateLocking(neededCatchAmount);
 
     const wholeCycles = data
@@ -115,6 +130,7 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
   return (
     <>
       <div className="border-t-2 border-black mt-2">
+        <div>Use nets: {Math.round(useNets || neededCatchAmount)}</div>
         <div>Lock now</div>
         <div className="flex flex-row border-b-2 border-black p-2 ">
           {whatToLock.map((value) => {
