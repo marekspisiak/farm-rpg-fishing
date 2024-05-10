@@ -9,7 +9,7 @@ import Strategy from "./Strategy";
 
 function App() {
   const [locationName, setLocationName] = useState("");
-  const [selectionData, setSelectionData] = useState({});
+  const [selectionData, setSelectionData] = useState(null);
   const [maxInv, setMaxInv] = useState(null);
 
   const [fishCategories, setFishCategories] = useState([]);
@@ -67,6 +67,7 @@ function App() {
   }, [locationName]);
 
   const handleLocationChange = (option) => {
+    setSelectionData(null);
     setLocationName(option.label);
     console.log("Selected location:", option.label);
   };
