@@ -23,6 +23,7 @@ function App() {
   const [inputData, setInputData] = useState([]);
 
   const [netAmount, setNetAmount] = useState(null);
+  const [catchAmount, setCatchAmount] = useState(15);
 
   const handleCopy = async () => {
     try {
@@ -123,8 +124,8 @@ function App() {
   console.log(netAmount);
 
   return (
-    <div className="px-3 gap-2 flex flex-col items-start bg-slate-100 relative h-screen">
-      <h1 className="self-center text-3xl py-4 -mb-2 w-full text-center bg-slate-200 sticky top-0 z-50 backdrop-blur-sm">
+    <div className="px-3 gap-2 flex flex-col items-start bg-slate-100 relative min-h-screen">
+      <h1 className="self-center text-3xl py-4 -mb-2 w-full text-center bg-slate-200 sticky top-0 z-50 ">
         Fishing predicter
       </h1>
       <LocationDropdown handleChange={handleLocationChange} />
@@ -140,6 +141,16 @@ function App() {
           type="number"
           onChange={(e) => {
             setNetAmount(e.target.value);
+          }}
+        ></input>
+      </label>
+      <label>
+        Catch amount:{" "}
+        <input
+          type="number"
+          defaultValue={catchAmount}
+          onChange={(e) => {
+            setCatchAmount(e.target.value);
           }}
         ></input>
       </label>
@@ -183,6 +194,7 @@ function App() {
         maxInv={maxInv ?? inputData[0]?.max}
         inputData={inputData}
         useNets={netAmount}
+        catchAmount={catchAmount}
       />
     </div>
   );

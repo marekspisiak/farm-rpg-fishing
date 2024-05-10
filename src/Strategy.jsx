@@ -8,6 +8,7 @@ function Strategy({
   maxInv,
   inputData,
   useNets,
+  catchAmount,
 }) {
   // const [sellCyclus, setSellCyclus] = useState();
   // const [whatToLock, setWhatToLock] = useState();
@@ -24,7 +25,8 @@ function Strategy({
       allFish &&
       ((desiredAmount && desiredFish) || useNets) &&
       maxInv &&
-      inputData
+      inputData &&
+      catchAmount
     )
   )
     return null;
@@ -37,8 +39,6 @@ function Strategy({
 
   let sellCyclus, whatToLock, locking;
 
-  const netCatch = 15;
-
   function combineArrays(array1, array2) {
     const newArray = array1
       .map((item) => {
@@ -47,7 +47,7 @@ function Strategy({
           return {
             name: item.item.name,
             quantity: match.quantity,
-            rate: (1 / item.rate) * netCatch,
+            rate: (1 / item.rate) * catchAmount,
             image: "https://farmrpg.com/" + item.item.image,
             locked: false,
           };
