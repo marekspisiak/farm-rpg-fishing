@@ -10,7 +10,7 @@ import Strategy from "./Strategy";
 function App() {
   const [locationName, setLocationName] = useState("");
   const [selectionData, setSelectionData] = useState({});
-  const [maxInv, setMaxInv] = useState(0);
+  const [maxInv, setMaxInv] = useState(null);
 
   const [fishCategories, setFishCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -30,7 +30,6 @@ function App() {
     try {
       const text = await navigator.clipboard.readText();
       setInputText(text); // Aktualizácia stavu s textom z clipboardu
-      console.log("Text skopírovaný z clipboardu:", text);
     } catch (err) {
       console.error(
         "Niečo sa pokazilo pri kopírovaní textu z clipboardu.",
@@ -124,7 +123,7 @@ function App() {
   };
 
   return (
-    <div className="px-3 gap-2 flex flex-col items-start bg-slate-100 relative">
+    <div className="px-3 gap-2 flex flex-col items-start bg-slate-100 relative h-screen">
       <h1 className="self-center text-3xl py-4 -mb-2 w-full text-center bg-slate-200 sticky top-0 z-50 backdrop-blur-sm">
         Fishing predicter
       </h1>
@@ -148,7 +147,7 @@ function App() {
         Should keep:{" "}
         <input
           type="number"
-          defaultValue={maxInv}
+          defaultValue={inputData[0]?.max}
           onChange={(e) => {
             setMaxInv(e.target.value);
           }}
@@ -172,7 +171,7 @@ function App() {
         allFish={fishCategories[selectedCategory]}
         desiredFish={selectionData}
         desiredAmount={desiredAmount}
-        maxInv={inputData[0]?.max}
+        maxInv={maxInv ?? inputData[0]?.max}
         inputData={inputData}
       />
     </div>

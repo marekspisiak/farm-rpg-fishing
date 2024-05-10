@@ -42,12 +42,21 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
       })
       .filter((item) => item !== null); // Remove any null entries if no match was found
 
-    return newArray;
+    const newArray2 = inputData.reduce((prev, cur) => {
+      const newPrev = prev;
+      const foundData = newArray.find((val) => val.name == cur.name);
+      console.log(foundData);
+      if (foundData != undefined) {
+        newPrev.push(foundData);
+      }
+      return newPrev;
+    }, []);
+
+    console.log(newArray2);
+    return newArray2;
   }
 
   const data = combineArrays(allFish, inputData);
-
-  console.log(data);
 
   sellCyclus = Math.round(maxInv / data[0].rate);
 
@@ -126,9 +135,9 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
           })}
         </div>
       </div>
-      {locking && (
+      {locking ? (
         <div>
-          <div>Locking next</div>
+          <div>Lock next</div>
           <img
             className="border-2 border-red-500 rounded bg-red-200 p-1 m-1"
             src={locking.image}
@@ -145,6 +154,8 @@ function Strategy({ allFish, desiredFish, desiredAmount, maxInv, inputData }) {
             sold all
           </button>
         </div>
+      ) : (
+        <div>Fish to cap </div>
       )}
     </>
   );
